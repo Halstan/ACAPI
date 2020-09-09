@@ -4,11 +4,11 @@ import com.ac.ac.entity.Weapon
 import com.ac.ac.repository.WeaponRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import javax.transaction.Transactional
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional
-class WeaponService(
+class WeaponService constructor(
         @Autowired
         private val weaponRepository: WeaponRepository) {
 

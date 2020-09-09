@@ -10,30 +10,30 @@ import javax.validation.constraints.NotBlank
 import javax.validation.constraints.Size
 
 @Entity
-@Data
 @Table(name = "Assasins")
 data class Assassin (
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private val idAssassin: Int,
+    val idAssassin: Int,
 
     @NotBlank
     @Size(min = 3, max = 25)
-    private val name: String,
+    @Column(length = 40)
+    val name: String,
 
     @NotBlank
     @Size(min = 5, max = 30)
-    private val lastName: String,
+    val lastName: String,
 
-    private val height: Float,
+    val height: Float,
 
     @CreationTimestamp
-    private val createdAt: Date,
+    val createdAt: Date,
 
     @ManyToOne
     @JoinColumn(name = "idCountry")
-    private val country: Country,
+    val country: Country,
 
     @ManyToMany
     @JoinTable(name = "AssassinWeapon", joinColumns = [JoinColumn(name = "idAssassin")], inverseJoinColumns = [JoinColumn(name = "idWeapon")],
@@ -42,4 +42,29 @@ data class Assassin (
 )
 {
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is Assassin) return false
+
+        if (idAssassin != other.idAssassin) return false
+        if (name != other.name) return false
+        if (lastName != other.lastName) return false
+        if (height != other.height) return false
+        if (createdAt != other.createdAt) return false
+        if (country != other.country) return false
+        if (weapons != other.weapons) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = idAssassin
+        result = 31 * result + name.hashCode()
+        result = 31 * result + lastName.hashCode()
+        result = 31 * result + height.hashCode()
+        result = 31 * result + createdAt.hashCode()
+        result = 31 * result + country.hashCode()
+        result = 31 * result + weapons.hashCode()
+        return result
+    }
 }

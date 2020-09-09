@@ -10,12 +10,13 @@ import javax.validation.Valid
 
 @RestController
 @RequestMapping("api/paises")
-class CountryController(
-        @Autowired
-        private val countryService: CountryService) {
+class CountryController{
 
-    @GetMapping(produces = ["application/json"])
-    fun findAll(): ResponseEntity<List<Country>>? {
+    @Autowired
+    lateinit var countryService: CountryService
+
+    @GetMapping
+    fun findAll(): ResponseEntity<List<Country>> {
         val countries: List<Country> = this.countryService.findAll()
 
         return ResponseEntity(countries, HttpStatus.OK)
