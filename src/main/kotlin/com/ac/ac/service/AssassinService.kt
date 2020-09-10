@@ -27,4 +27,7 @@ class AssassinService constructor(
 
     fun deleteAssassin(idAssassin: Int): Unit =
             this.assassinRepository.deleteById(idAssassin)
+
+    fun findAssassinByCountry(name: String): List<Assassin> =
+            this.assassinRepository.findAssassinByCountry(name)
 }

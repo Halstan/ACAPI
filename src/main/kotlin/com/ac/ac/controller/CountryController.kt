@@ -12,7 +12,7 @@ import javax.validation.Valid
 @RestController
 @CrossOrigin(origins = ["*"], methods = [RequestMethod.GET, RequestMethod.POST])
 @RequestMapping("api/paises")
-class CountryController(
+class CountryController constructor(
         @Autowired
         private val countryService: CountryService){
 

@@ -51,4 +51,10 @@ class AssassinController constructor(
         return ResponseEntity(assassin, HttpStatus.OK)
     }
 
+    @GetMapping("/pais/{name}", produces = ["application/json"])
+    fun findAssassinByCountry(@PathVariable name: String): ResponseEntity<List<Assassin>> {
+        val assassin: List<Assassin> = this.assassinService.findAssassinByCountry(name)
+
+        return ResponseEntity(assassin, HttpStatus.OK)
+    }
 }

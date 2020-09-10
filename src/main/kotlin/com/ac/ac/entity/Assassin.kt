@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonManagedReference
 import org.hibernate.annotations.CreationTimestamp
+import java.time.LocalDateTime
 import java.util.*
 import javax.persistence.*
 import javax.validation.constraints.NotBlank
@@ -11,7 +12,7 @@ import javax.validation.constraints.Size
 import kotlin.collections.HashSet
 
 @Entity
-@Table(name = "Assasins")
+@Table(name = "Assassins")
 data class Assassin constructor(
 
     @Id
@@ -31,7 +32,7 @@ data class Assassin constructor(
     val height: Float?,
 
     @CreationTimestamp
-    val createdAt: Date?,
+    val createdAt: LocalDateTime?,
 
     @ManyToOne
     @JoinColumn(name = "idCountry")
@@ -42,7 +43,7 @@ data class Assassin constructor(
             name = "AssassinWeapon",
             joinColumns = [JoinColumn(name = "idAssassin")],
             inverseJoinColumns = [JoinColumn(name = "idWeapon")])
-    @JsonIgnoreProperties("weapons")
+    @JsonIgnore
     val weapons: Set<Weapon>?
 )
 {
