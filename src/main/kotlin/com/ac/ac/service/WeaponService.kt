@@ -5,6 +5,7 @@ import com.ac.ac.repository.WeaponRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.util.*
 
 @Service
 @Transactional
@@ -24,7 +25,7 @@ class WeaponService constructor(
     fun deleteWeapon(idWeapon: Int) =
             this.weaponRepository.deleteById(idWeapon)
 
-    fun findById(idWeapon: Int) =
-            this.weaponRepository.deleteById(idWeapon)
+    fun findById(idWeapon: Int): Optional<Weapon> =
+            this.weaponRepository.findById(idWeapon)
 
 }

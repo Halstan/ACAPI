@@ -9,10 +9,9 @@ import java.util.*
 
 @Service
 @Transactional
-class CountryService{
-
+class CountryService constructor(
     @Autowired
-    lateinit var countryRepository: CountryRepository
+    private val countryRepository: CountryRepository){
 
     fun findAll(): List<Country> {
         return this.countryRepository.findAll()

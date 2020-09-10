@@ -1,17 +1,18 @@
 package com.ac.ac.entity
 
-import lombok.Data
+import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.JsonManagedReference
 import org.hibernate.annotations.CreationTimestamp
-import org.hibernate.annotations.GenericGenerator
-import org.hibernate.annotations.Type
 import java.util.*
 import javax.persistence.*
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.Size
+import kotlin.collections.HashSet
 
 @Entity
 @Table(name = "Assasins")
-data class Assassin (
+data class Assassin constructor(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,25 +21,29 @@ data class Assassin (
     @NotBlank
     @Size(min = 3, max = 25)
     @Column(length = 40)
-    val name: String,
+    val name: String?,
 
     @NotBlank
     @Size(min = 5, max = 30)
-    val lastName: String,
+    @Column(length = 25)
+    val lastName: String?,
 
-    val height: Float,
+    val height: Float?,
 
     @CreationTimestamp
-    val createdAt: Date,
+    val createdAt: Date?,
 
     @ManyToOne
     @JoinColumn(name = "idCountry")
-    val country: Country,
+    val country: Country?,
 
     @ManyToMany
-    @JoinTable(name = "AssassinWeapon", joinColumns = [JoinColumn(name = "idAssassin")], inverseJoinColumns = [JoinColumn(name = "idWeapon")],
-            uniqueConstraints = [UniqueConstraint(columnNames = ["idAssassin", "idWeapon"])])
-    private val weapons: List<Weapon>
+    @JoinTable(
+            name = "AssassinWeapon",
+            joinColumns = [JoinColumn(name = "idAssassin")],
+            inverseJoinColumns = [JoinColumn(name = "idWeapon")])
+    @JsonIgnoreProperties("weapons")
+    val weapons: Set<Weapon>?
 )
 {
 

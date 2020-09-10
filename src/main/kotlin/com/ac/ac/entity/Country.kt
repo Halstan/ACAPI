@@ -1,14 +1,13 @@
 package com.ac.ac.entity
 
-import lombok.Data
+import com.fasterxml.jackson.annotation.*
 import javax.persistence.*
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.Size
 
 @Entity
-@Data
 @Table(name = "Countries")
-data class Country(
+data class Country constructor(
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,11 +16,12 @@ data class Country(
         @Size(min = 5, max = 25)
         @NotBlank
         @Column(length = 40)
-        val nameCountry: String,
+        val nameCountry: String?,
 
         @OneToMany(mappedBy = "country")
         @Column(nullable = false)
-        val assassin: List<Assassin>? = null
+        @JsonIgnore
+        val assassins: List<Assassin>?
 
 ){
         override fun equals(other: Any?): Boolean {
@@ -30,7 +30,7 @@ data class Country(
 
                 if (idCountry != other.idCountry) return false
                 if (nameCountry != other.nameCountry) return false
-                if (assassin != other.assassin) return false
+                if (assassins != other.assassins) return false
 
                 return true
         }
@@ -38,11 +38,11 @@ data class Country(
         override fun hashCode(): Int {
                 var result = idCountry
                 result = 31 * result + nameCountry.hashCode()
-                result = 31 * result + (assassin?.hashCode() ?: 0)
+                result = 31 * result + (assassins?.hashCode() ?: 0)
                 return result
         }
 
         override fun toString(): String {
-                return "Country(idCountry=$idCountry, nameCountry='$nameCountry', assassin=$assassin)"
+                return "Country(idCountry=$idCountry, nameCountry='$nameCountry', assassin=$assassins)"
         }
 }

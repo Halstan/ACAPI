@@ -25,6 +25,6 @@ class AssassinService constructor(
     fun findById(idAssassin: Int): Optional<Assassin> =
             this.assassinRepository.findById(idAssassin)
 
-    fun deleteAssassin(idAssassin: Int) =
+    fun deleteAssassin(idAssassin: Int): Unit =
             this.assassinRepository.deleteById(idAssassin)
 }
