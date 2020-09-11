@@ -1,4 +1,4 @@
-/*package com.ac.ac.exception
+package com.ac.ac.exception
 
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -14,4 +14,4 @@ class ResponseExceptionHandler : ResponseEntityExceptionHandler() {
         val er = ExceptionResponse(LocalDateTime.now(), ex.message, request.getDescription(false))
         return ResponseEntity(er, HttpStatus.INTERNAL_SERVER_ERROR)
     }
-}*/
+}

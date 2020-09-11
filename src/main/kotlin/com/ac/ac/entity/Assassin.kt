@@ -1,15 +1,10 @@
 package com.ac.ac.entity
 
-import com.fasterxml.jackson.annotation.JsonIgnore
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-import com.fasterxml.jackson.annotation.JsonManagedReference
 import org.hibernate.annotations.CreationTimestamp
 import java.time.LocalDateTime
-import java.util.*
 import javax.persistence.*
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.Size
-import kotlin.collections.HashSet
 
 @Entity
 @Table(name = "Assassins")
@@ -18,6 +13,17 @@ data class Assassin constructor(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val idAssassin: Int,
+
+    @ManyToMany
+    @JoinTable(
+            name = "AssassinWeapon",
+            joinColumns = [JoinColumn(name = "idAssassin")],
+            inverseJoinColumns = [JoinColumn(name = "idWeapon")])
+    val weapons: Set<Weapon>?,
+
+    @ManyToOne
+    @JoinColumn(name = "idCountry")
+    val country: Country?,
 
     @NotBlank
     @Size(min = 3, max = 25)
@@ -32,19 +38,7 @@ data class Assassin constructor(
     val height: Float?,
 
     @CreationTimestamp
-    val createdAt: LocalDateTime?,
-
-    @ManyToOne
-    @JoinColumn(name = "idCountry")
-    val country: Country?,
-
-    @ManyToMany
-    @JoinTable(
-            name = "AssassinWeapon",
-            joinColumns = [JoinColumn(name = "idAssassin")],
-            inverseJoinColumns = [JoinColumn(name = "idWeapon")])
-    @JsonIgnore
-    val weapons: Set<Weapon>?
+    val createdAt: LocalDateTime?
 )
 {
 

@@ -1,6 +1,5 @@
 package com.ac.ac.entity
 
-import com.fasterxml.jackson.annotation.JsonIgnore
 import javax.persistence.*
 import javax.validation.constraints.Size
 
@@ -14,11 +13,7 @@ data class Weapon constructor(
 
         @Size(min = 4, max = 30)
         @Column(length = 30)
-        val nameWeapon: String?,
-
-        @ManyToMany(mappedBy = "weapons")
-        @JsonIgnore
-        val assassins: Set<Assassin>?
+        val nameWeapon: String?
 
 ) {
 
@@ -28,7 +23,6 @@ data class Weapon constructor(
 
                 if (idWeapon != other.idWeapon) return false
                 if (nameWeapon != other.nameWeapon) return false
-                if (assassins != other.assassins) return false
 
                 return true
         }
@@ -36,7 +30,6 @@ data class Weapon constructor(
         override fun hashCode(): Int {
                 var result = idWeapon ?: 0
                 result = 31 * result + (nameWeapon?.hashCode() ?: 0)
-                result = 31 * result + (assassins?.hashCode() ?: 0)
                 return result
         }
 }

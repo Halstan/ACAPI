@@ -1,4 +1,4 @@
-/*package com.ac.ac.exception
+package com.ac.ac.exception
 
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
@@ -33,4 +33,4 @@ class CustomGlobalExceptionHandler : ResponseEntityExceptionHandler() {
         return ResponseEntity(body, headers, status)
     }
 
-}*/
+}
