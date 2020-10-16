@@ -10,34 +10,40 @@ import java.util.*
 import javax.validation.Valid
 
 @RestController
-@CrossOrigin(origins = ["*"], methods = [RequestMethod.GET, RequestMethod.POST])
-@RequestMapping("api/asesinos")
+@CrossOrigin(origins = ["*"], methods = [RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE])
+@RequestMapping("/api/asesinos")
 class AssassinController constructor(
         @Autowired
         private val assassinService: AssassinService){
 
-    @GetMapping(produces = ["application/json"])
+    companion object {
+        const val type = "application/json;charset=UTF-8"
+    }
+
+    @GetMapping(produces = [type])
     private fun findAll(): ResponseEntity<List<Assassin>>{
         val assassins: List<Assassin> = this.assassinService.findAll()
 
         return ResponseEntity(assassins, HttpStatus.OK)
     }
 
-    @PostMapping(consumes = ["application/json"], produces = ["application/json"])
+    @PostMapping(consumes = [type], produces = [type])
     private fun addAssassin(@RequestBody @Valid assassin: Assassin): ResponseEntity<Assassin>{
         val assassin1: Assassin = this.assassinService.addAssassin(assassin)
 
         return ResponseEntity(assassin1, HttpStatus.CREATED)
     }
 
-    @GetMapping("{idAssassin}", produces = ["application/json"])
+    //@Secured( "ROLE_ADMIN", "ROLE_USER" )
+    @GetMapping("{idAssassin}", produces = [type])
     private fun findAssassinById(@PathVariable idAssassin: Int): ResponseEntity<Optional<Assassin>>{
         val assassin: Optional<Assassin> = this.assassinService.findById(idAssassin)
 
         return ResponseEntity(assassin, HttpStatus.OK)
     }
 
-    @PutMapping(produces = ["application/json"], consumes = ["application/json"])
+    //@Secured("ROLE_ADMIN")
+    @PutMapping(produces = [type], consumes = [type])
     private fun updateAssassin(@RequestBody @Valid assassin: Assassin): ResponseEntity<Assassin>{
         val assassin1: Assassin = this.assassinService.updateAssassin(assassin)
 
@@ -48,13 +54,14 @@ class AssassinController constructor(
     private fun deleteAssassin(@PathVariable idAssassin: Int): ResponseEntity<Unit>{
         val assassin: Unit = this.assassinService.deleteAssassin(idAssassin)
 
-        return ResponseEntity(assassin, HttpStatus.OK)
+        return ResponseEntity(assassin, HttpStatus.NO_CONTENT)
     }
 
-    @GetMapping("/pais/{name}", produces = ["application/json"])
+    @GetMapping("/pais/{name}", produces = [type])
     private fun findAssassinByCountry(@PathVariable name: String): ResponseEntity<List<Assassin>> {
         val assassin: List<Assassin> = this.assassinService.findAssassinByCountry(name)
 
         return ResponseEntity(assassin, HttpStatus.OK)
     }
+
 }

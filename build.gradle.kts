@@ -24,8 +24,16 @@ repositories {
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
+
+	//
+	//implementation("org.springframework.security.oauth:spring-security-oauth2:2.3.4.RELEASE")
+	//implementation("org.springframework.security:spring-security-jwt:1.0.9.RELEASE")
+	//JDK 9 O SUPERIOR
+	//implementation("javax.xml.bind:jaxb-api")
+	//implementation("org.glassfish.jaxb:jaxb-runtime")
+
+
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")

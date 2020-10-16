@@ -15,7 +15,7 @@ data class Country constructor(
 
         @Size(min = 5, max = 25)
         @NotBlank
-        @Column(length = 40)
+        @Column(length = 40, unique = true)
         val nameCountry: String?,
 
         @OneToMany(mappedBy = "country")
@@ -43,6 +43,6 @@ data class Country constructor(
         }
 
         override fun toString(): String {
-                return "Country(idCountry=$idCountry, nameCountry='$nameCountry', assassin=$assassins)"
+                return "Country(idCountry=$idCountry, nameCountry='$nameCountry')"
         }
 }

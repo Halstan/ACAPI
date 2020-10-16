@@ -1,6 +1,7 @@
 package com.ac.ac.entity
 
 import javax.persistence.*
+import javax.validation.constraints.NotEmpty
 import javax.validation.constraints.Size
 
 @Entity
@@ -11,11 +12,12 @@ data class Weapon constructor(
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         val idWeapon: Int?,
 
-        @Size(min = 4, max = 30)
-        @Column(length = 30)
+        @Size(min = 5, max = 30)
+        @NotEmpty
+        @Column(length = 30, unique = true, nullable = false)
         val nameWeapon: String?
 
-) {
+        ) {
 
         override fun equals(other: Any?): Boolean {
                 if (this === other) return true
@@ -32,4 +34,9 @@ data class Weapon constructor(
                 result = 31 * result + (nameWeapon?.hashCode() ?: 0)
                 return result
         }
+
+        override fun toString(): String {
+                return "Weapon(idWeapon=$idWeapon, nameWeapon=$nameWeapon)"
+        }
+
 }

@@ -1,6 +1,7 @@
 package com.ac.ac.entity
 
 import org.hibernate.annotations.CreationTimestamp
+import java.io.Serializable
 import java.time.LocalDateTime
 import javax.persistence.*
 import javax.validation.constraints.NotBlank
@@ -39,8 +40,7 @@ data class Assassin constructor(
 
     @CreationTimestamp
     val createdAt: LocalDateTime?
-)
-{
+    ): Serializable {
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
