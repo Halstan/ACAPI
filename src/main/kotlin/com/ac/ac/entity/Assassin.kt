@@ -2,9 +2,12 @@ package com.ac.ac.entity
 
 import org.hibernate.annotations.CreationTimestamp
 import java.io.Serializable
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.util.*
 import javax.persistence.*
 import javax.validation.constraints.NotBlank
+import javax.validation.constraints.NotNull
 import javax.validation.constraints.Size
 
 @Entity
@@ -22,21 +25,26 @@ data class Assassin constructor(
             inverseJoinColumns = [JoinColumn(name = "idWeapon")])
     val weapons: Set<Weapon>?,
 
-    @ManyToOne
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idCountry")
-    val country: Country?,
+    val country: Country,
 
     @NotBlank
     @Size(min = 3, max = 25)
     @Column(length = 40)
-    val name: String?,
+    val name: String,
 
     @NotBlank
     @Size(min = 5, max = 30)
     @Column(length = 25)
-    val lastName: String?,
+    val lastName: String,
 
-    val height: Float?,
+    val height: Float,
+
+    @NotNull
+    @Column(unique = true)
+    val birthDate: LocalDate,
 
     @CreationTimestamp
     val createdAt: LocalDateTime?

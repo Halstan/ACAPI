@@ -15,7 +15,7 @@ data class Weapon constructor(
         @Size(min = 5, max = 30)
         @NotEmpty
         @Column(length = 30, unique = true, nullable = false)
-        val nameWeapon: String?
+        val nameWeapon: String
 
         ) {
 

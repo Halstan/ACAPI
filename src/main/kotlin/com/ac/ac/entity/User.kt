@@ -5,7 +5,6 @@ import javax.persistence.*
 import javax.validation.constraints.Email
 import javax.validation.constraints.NotEmpty
 import javax.validation.constraints.Size
-import kotlin.math.min
 
 @Entity
 @Table(name = "users")
@@ -16,15 +15,15 @@ data class User constructor(
         val idUser: Long?,
 
         @Column(length = 50)
-        val name: String? = null,
+        val name: String,
 
         @NotEmpty
         @Size(min = 4, max = 50)
         @Column(length = 50)
-        val lastName: String? = null,
+        val lastName: String,
 
         @Column(length = 30, unique = true)
-        val username: String? = null,
+        val username: String,
 
         @Email
         @NotEmpty
@@ -32,9 +31,9 @@ data class User constructor(
         val email: String? = null,
 
         @Column(length = 90)
-        val password: String? = null,
+        val password: String,
 
-        val enabled: Boolean? = null,
+        val enabled: Boolean? = true,
 
         @ManyToMany(fetch = FetchType.LAZY, cascade = [CascadeType.MERGE])
         @JoinTable(name="user_rol", joinColumns = [JoinColumn(name="idUser")], inverseJoinColumns = [JoinColumn(name="idRol")],

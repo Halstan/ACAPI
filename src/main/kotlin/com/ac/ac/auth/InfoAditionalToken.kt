@@ -1,6 +1,6 @@
 package com.ac.ac.auth
 
-/*import com.ac.ac.entity.User
+import com.ac.ac.entity.User
 import com.ac.ac.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken
@@ -18,8 +18,8 @@ class InfoAditionalToken constructor(
     override fun enhance(accessToken: OAuth2AccessToken?, authentication: OAuth2Authentication?): OAuth2AccessToken {
         val user: User = this.userService.findByUsername(authentication!!.name)
         val info: MutableMap<String, Any> = HashMap()
-        info["info adicional"] = "Hola que tal!"
 
+        info["Id"] = user.idUser!!.toString()
         info["Nombre"] = user.name!!.toString()
         info["Apellido"] = user.lastName!!.toString()
         info["Email"] = user.email!!.toString()
@@ -29,4 +29,4 @@ class InfoAditionalToken constructor(
         return accessToken
     }
 
-}*/
+}

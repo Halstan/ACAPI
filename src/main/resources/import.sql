@@ -1,11 +1,32 @@
 insert into countries(name_country) value ('Italia');
 insert into countries(name_country) value ('EE.UU');
+insert into countries(name_country) value ('Inglaterra');
+insert into countries(name_country) value ('Egipto');
+insert into countries(name_country) value ('España');
 
 insert into weapons(name_weapon) values ('Espada');
 insert into weapons(name_weapon) values ('Tomahawk');
+insert into weapons(name_weapon) values ('Lanza');
+insert into weapons(name_weapon) values ('Arco');
+insert into weapons(name_weapon) values ('Ballesta');
+insert into weapons(name_weapon) values ('Hacha');
+insert into weapons(name_weapon) values ('Escudo');
+insert into weapons(name_weapon) values ('Hoja oculta');
 
-insert into assassins(created_at, height, last_name, name, id_country) values ('2020-09-17 13:32:19', 1.80, 'Auditore', 'Ezio', 1);
-insert into assassins(created_at, height, last_name, name, id_country) values ('2020-09-17 13:32:19', 1.80, 'Kenway', 'Connor', 2);
+insert into assassins(created_at, height, last_name, name, id_country) values (NOW(), 1.80, 'Auditore', 'Ezio', 1);
+insert into assassins(created_at, height, last_name, name, id_country) values (NOW(), 1.80, 'Kenway', 'Connor', 2);
+insert into assassins(created_at, height, last_name, name, id_country) values (NOW(), 1.80, 'Auditore', 'Maria', 1);
+insert into assassins(created_at, height, last_name, name, id_country) values (NOW(), 1.80, 'Kenway', 'Edward', 3);
+insert into assassins(created_at, height, last_name, name, id_country) values (NOW(), 1.80, 'Eve', 'Frye', 3);
+insert into assassins(created_at, height, last_name, name, id_country) values (NOW(), 1.80, 'Jacob', 'Frye', 3);
+insert into assassins(created_at, height, last_name, name, id_country) values (NOW(), 1.80, 'Auditore', 'Ezio', 1);
+insert into assassins(created_at, height, last_name, name, id_country) values (NOW(), 1.80, 'Kenway', 'Connor', 2);
+insert into assassins(created_at, height, last_name, name, id_country) values (NOW(), 1.80, 'Auditore', 'Ezio', 1);
+insert into assassins(created_at, height, last_name, name, id_country) values (NOW(), 1.80, 'Kenway', 'Connor', 2);
+insert into assassins(created_at, height, last_name, name, id_country) values (NOW(), 1.80, 'Auditore', 'Ezio', 1);
+insert into assassins(created_at, height, last_name, name, id_country) values (NOW(), 1.80, 'Kenway', 'Connor', 2);
+insert into assassins(created_at, height, last_name, name, id_country) values (NOW(), 1.80, 'De siwa', 'Bayek', 4);
+insert into assassins(created_at, height, last_name, name, id_country) values (NOW(), 1.80, 'Ibn Lah', 'Altair', 2);
 
 insert into assassin_weapon(id_weapon, id_assassin) values (1, 1);
 insert into assassin_weapon(id_weapon, id_assassin) values (1, 2);

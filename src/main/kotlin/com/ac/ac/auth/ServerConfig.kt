@@ -1,6 +1,6 @@
 package com.ac.ac.auth
 
-/*import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -13,10 +13,8 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer
 import org.springframework.security.oauth2.provider.token.TokenEnhancer
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain
-import org.springframework.security.oauth2.provider.token.TokenStore
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore
-import java.util.*
 
 @Configuration
 @EnableAuthorizationServer
@@ -37,8 +35,8 @@ class ServerConfig @Autowired constructor(
     @Value("\${application.jwt.publicKey}")
     val publicKey: String = ""
 
-    override fun configure(security: AuthorizationServerSecurityConfigurer?) {
-        security!!.tokenKeyAccess("permitAll()")
+    override fun configure(security: AuthorizationServerSecurityConfigurer) {
+        security.tokenKeyAccess("permitAll()")
                 .checkTokenAccess("isAuthenticated()")
     }
 
@@ -62,7 +60,7 @@ class ServerConfig @Autowired constructor(
     }
 
     @Bean
-    fun tokenStorage(): TokenStore? {
+    fun tokenStorage(): JwtTokenStore? {
         return JwtTokenStore(accessTokenConverter())
     }
 
@@ -73,4 +71,4 @@ class ServerConfig @Autowired constructor(
         jwtAccessTokenConverter.setVerifierKey(publicKey)
         return jwtAccessTokenConverter
     }
-}*/
+}

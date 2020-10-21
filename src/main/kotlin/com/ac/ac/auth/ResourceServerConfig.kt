@@ -1,6 +1,6 @@
 package com.ac.ac.auth
 
-/*import org.springframework.boot.web.servlet.FilterRegistrationBean
+import org.springframework.boot.web.servlet.FilterRegistrationBean
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.Ordered
@@ -12,16 +12,16 @@ import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 import org.springframework.web.filter.CorsFilter
-import java.util.*
 
 @Configuration
 @EnableResourceServer
 class ResourceServerConfig: ResourceServerConfigurerAdapter() {
 
+
     override fun configure(http: HttpSecurity?) {
-        http!!.authorizeRequests().antMatchers(HttpMethod.GET, "/api/asesinos").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/asesinos/{id}").hasAnyRole("USER", "ADMIN")
-                .antMatchers(HttpMethod.POST, "/api/asesinos").hasRole("ADMIN")
+        http!!.authorizeRequests().antMatchers(HttpMethod.GET, "/api/asesinos", "/api/asesinos/page/**", "/api/paises", "/api/armas").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/asesinos/{id}", "/api/paises/{id}", "/api/armas/{id}").hasAnyRole("USER", "ADMIN")
+                .antMatchers(HttpMethod.POST, "/api/asesinos", "/api/paises", "/api/armas").hasRole("ADMIN")
                 .antMatchers("/api/asesinos/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and().cors().configurationSource(corsConfigurationSource())
@@ -47,4 +47,4 @@ class ResourceServerConfig: ResourceServerConfigurerAdapter() {
         bean.order = Ordered.HIGHEST_PRECEDENCE
         return bean
     }
-}*/
+}

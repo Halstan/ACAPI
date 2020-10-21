@@ -3,6 +3,8 @@ package com.ac.ac.service
 import com.ac.ac.entity.Assassin
 import com.ac.ac.repository.AssassinRepository
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
@@ -15,6 +17,9 @@ class AssassinService constructor(
 
     fun findAll(): List<Assassin> =
             this.assassinRepository.findAll()
+
+    fun findAll(pageable: Pageable): Page<Assassin> =
+            this.assassinRepository.findAll(pageable)
 
     fun addAssassin(assassin: Assassin): Assassin =
             this.assassinRepository.save(assassin)

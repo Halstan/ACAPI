@@ -16,7 +16,7 @@ data class Country constructor(
         @Size(min = 5, max = 25)
         @NotBlank
         @Column(length = 40, unique = true)
-        val nameCountry: String?,
+        val nameCountry: String,
 
         @OneToMany(mappedBy = "country")
         @Column(nullable = false)

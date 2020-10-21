@@ -3,8 +3,12 @@ package com.ac.ac.controller
 import com.ac.ac.entity.Assassin
 import com.ac.ac.service.AssassinService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.annotation.Secured
 import org.springframework.web.bind.annotation.*
 import java.util.*
 import javax.validation.Valid
@@ -27,6 +31,14 @@ class AssassinController constructor(
         return ResponseEntity(assassins, HttpStatus.OK)
     }
 
+    @GetMapping(value = ["page/{page}"], produces = [type])
+    private fun findAll(@PathVariable page: Int): ResponseEntity<Page<Assassin>>{
+        val page1: Pageable = PageRequest.of(page, 4)
+        val assassins: Page<Assassin> = this.assassinService.findAll(page1)
+
+        return ResponseEntity(assassins, HttpStatus.OK)
+    }
+
     @PostMapping(consumes = [type], produces = [type])
     private fun addAssassin(@RequestBody @Valid assassin: Assassin): ResponseEntity<Assassin>{
         val assassin1: Assassin = this.assassinService.addAssassin(assassin)
@@ -34,7 +46,6 @@ class AssassinController constructor(
         return ResponseEntity(assassin1, HttpStatus.CREATED)
     }
 
-    //@Secured( "ROLE_ADMIN", "ROLE_USER" )
     @GetMapping("{idAssassin}", produces = [type])
     private fun findAssassinById(@PathVariable idAssassin: Int): ResponseEntity<Optional<Assassin>>{
         val assassin: Optional<Assassin> = this.assassinService.findById(idAssassin)
@@ -42,7 +53,6 @@ class AssassinController constructor(
         return ResponseEntity(assassin, HttpStatus.OK)
     }
 
-    //@Secured("ROLE_ADMIN")
     @PutMapping(produces = [type], consumes = [type])
     private fun updateAssassin(@RequestBody @Valid assassin: Assassin): ResponseEntity<Assassin>{
         val assassin1: Assassin = this.assassinService.updateAssassin(assassin)
