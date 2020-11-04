@@ -3,18 +3,20 @@ package com.ac.ac.controller
 import com.ac.ac.entity.Assassin
 import com.ac.ac.service.AssassinService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.dao.DataAccessException
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.security.access.annotation.Secured
+import org.springframework.validation.BindingResult
+import org.springframework.validation.FieldError
 import org.springframework.web.bind.annotation.*
 import java.util.*
+import java.util.stream.Collectors
 import javax.validation.Valid
 
 @RestController
-@CrossOrigin(origins = ["*"], methods = [RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE])
 @RequestMapping("/api/asesinos")
 class AssassinController constructor(
         @Autowired
@@ -28,6 +30,10 @@ class AssassinController constructor(
     private fun findAll(): ResponseEntity<List<Assassin>>{
         val assassins: List<Assassin> = this.assassinService.findAll()
 
+        if (assassins.isEmpty()){
+            return ResponseEntity(HttpStatus.NO_CONTENT)
+        }
+
         return ResponseEntity(assassins, HttpStatus.OK)
     }
 
@@ -39,9 +45,27 @@ class AssassinController constructor(
         return ResponseEntity(assassins, HttpStatus.OK)
     }
 
-    @PostMapping(consumes = [type], produces = [type])
-    private fun addAssassin(@RequestBody @Valid assassin: Assassin): ResponseEntity<Assassin>{
-        val assassin1: Assassin = this.assassinService.addAssassin(assassin)
+    @RequestMapping(method = [RequestMethod.POST, RequestMethod.PUT], consumes = [type], produces = [type])
+    private fun addAssassin(@RequestBody @Valid assassin: Assassin, result: BindingResult): ResponseEntity<*>{
+        val errors: List<String>
+        val response: MutableMap<String, Any?> = HashMap()
+        val assassin1: Assassin
+
+        if (result.hasErrors()) {
+            errors = result.fieldErrors.stream()
+                    .map { err: FieldError -> "El campo: " + err.field + " " + err.defaultMessage }
+                    .collect(Collectors.toList())
+            response["Errores"] = errors
+            return ResponseEntity(response, HttpStatus.BAD_REQUEST)
+        }
+
+        try {
+            assassin1 = this.assassinService.addAssassin(assassin)
+        } catch (e: DataAccessException) {
+            response["Message"] = "Error al guardar/actualizar al asesino " + assassin.name + " en la base de datos"
+            response["Error"] = e.mostSpecificCause.message
+            return ResponseEntity(response, HttpStatus.BAD_REQUEST)
+        }
 
         return ResponseEntity(assassin1, HttpStatus.CREATED)
     }
@@ -51,13 +75,6 @@ class AssassinController constructor(
         val assassin: Optional<Assassin> = this.assassinService.findById(idAssassin)
 
         return ResponseEntity(assassin, HttpStatus.OK)
-    }
-
-    @PutMapping(produces = [type], consumes = [type])
-    private fun updateAssassin(@RequestBody @Valid assassin: Assassin): ResponseEntity<Assassin>{
-        val assassin1: Assassin = this.assassinService.updateAssassin(assassin)
-
-        return ResponseEntity(assassin1, HttpStatus.ACCEPTED)
     }
 
     @DeleteMapping("{idAssassin}")

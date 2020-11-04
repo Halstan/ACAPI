@@ -4,7 +4,6 @@ import org.hibernate.annotations.CreationTimestamp
 import java.io.Serializable
 import java.time.LocalDate
 import java.time.LocalDateTime
-import java.util.*
 import javax.persistence.*
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
@@ -16,38 +15,38 @@ data class Assassin constructor(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val idAssassin: Int,
+    val idAssassin: Int? = null,
 
     @ManyToMany
     @JoinTable(
             name = "AssassinWeapon",
             joinColumns = [JoinColumn(name = "idAssassin")],
             inverseJoinColumns = [JoinColumn(name = "idWeapon")])
-    val weapons: Set<Weapon>?,
+    val weapons: Set<Weapon>? = null,
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idCountry")
-    val country: Country,
+    val country: Country? = null,
 
     @NotBlank
     @Size(min = 3, max = 25)
     @Column(length = 40)
-    val name: String,
+    val name: String? = null,
 
     @NotBlank
     @Size(min = 5, max = 30)
     @Column(length = 25)
-    val lastName: String,
+    val lastName: String? = null,
 
-    val height: Float,
+    val height: Float? = null,
 
-    @NotNull
-    @Column(unique = true)
-    val birthDate: LocalDate,
+    @NotBlank
+    @Column(nullable = false)
+    val birthDate: LocalDate? = null,
 
     @CreationTimestamp
-    val createdAt: LocalDateTime?
+    val createdAt: LocalDateTime? = null
     ): Serializable {
 
     override fun equals(other: Any?): Boolean {
@@ -67,7 +66,7 @@ data class Assassin constructor(
 
     override fun hashCode(): Int {
         var result = idAssassin
-        result = 31 * result + name.hashCode()
+        result = 31 * result!! + name.hashCode()
         result = 31 * result + lastName.hashCode()
         result = 31 * result + height.hashCode()
         result = 31 * result + createdAt.hashCode()

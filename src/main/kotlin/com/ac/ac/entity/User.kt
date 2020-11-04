@@ -15,15 +15,15 @@ data class User constructor(
         val idUser: Long?,
 
         @Column(length = 50)
-        val name: String,
+        val name: String?,
 
         @NotEmpty
         @Size(min = 4, max = 50)
         @Column(length = 50)
-        val lastName: String,
+        val lastName: String?,
 
         @Column(length = 30, unique = true)
-        val username: String,
+        val username: String?,
 
         @Email
         @NotEmpty
@@ -31,7 +31,7 @@ data class User constructor(
         val email: String? = null,
 
         @Column(length = 90)
-        val password: String,
+        val password: String?,
 
         val enabled: Boolean? = true,
 

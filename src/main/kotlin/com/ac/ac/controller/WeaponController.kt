@@ -15,7 +15,6 @@ import javax.validation.Valid
 import kotlin.collections.ArrayList
 
 @RestController
-@CrossOrigin(origins = ["*"], methods = [RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE])
 @RequestMapping("api/armas")
 class WeaponController constructor(
         @Autowired
@@ -32,7 +31,7 @@ class WeaponController constructor(
         return ResponseEntity(weapon, HttpStatus.OK)
     }
 
-    @PostMapping(produces = [type], consumes = [type])
+    @RequestMapping(method = [RequestMethod.PUT, RequestMethod.POST], consumes = [type], produces = [type])
     private fun addWeapon(@RequestBody @Valid weapon: Weapon, bindingResult: BindingResult): ResponseEntity<*>{
         val response: MutableMap<String, Any?> = HashMap()
         val weapon1: Weapon?
@@ -49,7 +48,7 @@ class WeaponController constructor(
         try {
             weapon1 = this.weaponService.addWeapon(weapon)
         }catch (e: DataAccessException){
-            response["Message"] = "Error al guardar el arma ${weapon.nameWeapon} en la base de datos"
+            response["Message"] = "Error al guardar/actualizar el arma ${weapon.nameWeapon} en la base de datos"
             response["Error"] = e.mostSpecificCause.message
             return ResponseEntity(response, HttpStatus.INTERNAL_SERVER_ERROR)
         }
@@ -69,24 +68,6 @@ class WeaponController constructor(
             ResponseEntity(response, HttpStatus.INTERNAL_SERVER_ERROR)
         }
 
-    }
-
-    @PutMapping(produces = [type], consumes = [type])
-    private fun updateWeapon(@RequestBody @Valid weapon: Weapon, bindingResult: BindingResult): ResponseEntity<*>{
-        val weapon1: Weapon = this.weaponService.updateWeapon(weapon)
-        val errors: MutableList<String>
-        val response: MutableMap<String, Any?> = HashMap()
-
-        if (bindingResult.hasErrors()){
-            errors = bindingResult.fieldErrors.stream()
-                    .map { err -> "El campo: ${ err.defaultMessage!! } no puede estar vacío" }
-                    .collect(Collectors.toList())
-            response["Message"] = "Error al actualizar"
-            response["Errors"] = errors
-            return ResponseEntity(response, HttpStatus.BAD_REQUEST)
-        }
-
-        return ResponseEntity(weapon1, HttpStatus.ACCEPTED)
     }
 
     @DeleteMapping("{idWeapon}", produces = [type])

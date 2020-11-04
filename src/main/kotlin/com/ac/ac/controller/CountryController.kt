@@ -6,14 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.dao.DataAccessException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.security.access.annotation.Secured
+import org.springframework.validation.BindingResult
+import org.springframework.validation.FieldError
 import org.springframework.web.bind.annotation.*
 import java.util.*
+import java.util.stream.Collectors
 import javax.validation.Valid
 import kotlin.collections.HashMap
 
 @RestController
-@CrossOrigin(origins = ["*"], methods = [RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE])
 @RequestMapping("api/paises")
 class CountryController constructor(
         @Autowired
@@ -30,19 +31,27 @@ class CountryController constructor(
         return ResponseEntity(countries, HttpStatus.OK)
     }
 
-    @PostMapping(consumes = [type], produces = [type])
-    private fun addCountry(@RequestBody country: @Valid Country): ResponseEntity<*> {
-        val response: MutableMap<String, Any?> = HashMap()
-        val country1: Country?
+    @RequestMapping(method = [RequestMethod.PUT, RequestMethod.POST], consumes = [type], produces = [type])
+    private fun addCountry(@RequestBody country: @Valid Country, result: BindingResult): ResponseEntity<*> {
+        val errors: List<String>
+        val response: MutableMap<String, Any?> = java.util.HashMap()
+        val country1: Country
+
+        if (result.hasErrors()) {
+            errors = result.fieldErrors.stream()
+                    .map { err: FieldError -> "El campo: " + err.field + " " + err.defaultMessage }
+                    .collect(Collectors.toList())
+            response["Errores"] = errors
+            return ResponseEntity(response, HttpStatus.BAD_REQUEST)
+        }
 
         try {
             country1 = this.countryService.addCountry(country)
-        }catch (e: DataAccessException){
-            response["Message"] = "Error al guardar al pais ${country.nameCountry} en la base de datos"
+        } catch (e: DataAccessException) {
+            response["Message"] = "Error al guardar/actualizar el país " + country.nameCountry + " en la base de datos"
             response["Error"] = e.mostSpecificCause.message
-            return ResponseEntity(response, HttpStatus.INTERNAL_SERVER_ERROR)
+            return ResponseEntity(response, HttpStatus.BAD_REQUEST)
         }
-
         return ResponseEntity(country1, HttpStatus.CREATED)
     }
 
@@ -57,13 +66,6 @@ class CountryController constructor(
             response["Error"] = "El pais: $idCountry no existe en la base de datos!"
             ResponseEntity(response, HttpStatus.INTERNAL_SERVER_ERROR)
         }
-    }
-
-    @PutMapping(produces = [type], consumes = [type])
-    private fun updateCountry(@RequestBody country: @Valid Country): ResponseEntity<Country> {
-        val country1: Country = this.countryService.updateCountry(country)
-
-        return ResponseEntity(country1, HttpStatus.ACCEPTED)
     }
 
     @DeleteMapping("{idCountry}")

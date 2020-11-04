@@ -17,11 +17,11 @@ class InfoAditionalToken constructor(
 
     override fun enhance(accessToken: OAuth2AccessToken?, authentication: OAuth2Authentication?): OAuth2AccessToken {
         val user: User = this.userService.findByUsername(authentication!!.name)
-        val info: MutableMap<String, Any> = HashMap()
+        val info: MutableMap<String, Any?> = HashMap()
 
         info["Id"] = user.idUser!!.toString()
-        info["Nombre"] = user.name!!.toString()
-        info["Apellido"] = user.lastName!!.toString()
+        info["Nombre"] = user.name
+        info["Apellido"] = user.lastName
         info["Email"] = user.email!!.toString()
 
         (accessToken as DefaultOAuth2AccessToken).additionalInformation = info

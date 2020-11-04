@@ -11,17 +11,17 @@ data class Country constructor(
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val idCountry: Int,
+        val idCountry: Int? = null,
 
         @Size(min = 5, max = 25)
         @NotBlank
         @Column(length = 40, unique = true)
-        val nameCountry: String,
+        val nameCountry: String? = "",
 
         @OneToMany(mappedBy = "country")
         @Column(nullable = false)
         @JsonIgnore
-        val assassins: List<Assassin>?
+        val assassins: List<Assassin>? = null
 
 ){
         override fun equals(other: Any?): Boolean {
@@ -37,7 +37,7 @@ data class Country constructor(
 
         override fun hashCode(): Int {
                 var result = idCountry
-                result = 31 * result + nameCountry.hashCode()
+                result = 31 * result!! + nameCountry.hashCode()
                 result = 31 * result + (assassins?.hashCode() ?: 0)
                 return result
         }

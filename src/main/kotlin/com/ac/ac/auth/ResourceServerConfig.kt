@@ -22,6 +22,8 @@ class ResourceServerConfig: ResourceServerConfigurerAdapter() {
         http!!.authorizeRequests().antMatchers(HttpMethod.GET, "/api/asesinos", "/api/asesinos/page/**", "/api/paises", "/api/armas").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/asesinos/{id}", "/api/paises/{id}", "/api/armas/{id}").hasAnyRole("USER", "ADMIN")
                 .antMatchers(HttpMethod.POST, "/api/asesinos", "/api/paises", "/api/armas").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PUT, "/api/asesinos", "/api/paises", "/api/armas/{id}").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/api/asesinos", "/api/paises", "/api/armas/{id}").hasRole("ADMIN")
                 .antMatchers("/api/asesinos/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and().cors().configurationSource(corsConfigurationSource())
